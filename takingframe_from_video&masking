@@ -1,0 +1,37 @@
+import cv2
+import numpy as np
+import time
+cap_dur=6
+caps=cv2.VideoCapture('C:/Users/Videos/RoseBloom.mp4')
+fourcc=cv2.VideoWriter_fourcc(*'XVID')
+out=cv2.VideoWriter('output.avi',fourcc,20.0,(640,480))
+start_time=time.time()
+while(int(time.time()-start_time)<cap_dur):
+    ret,frame=caps.read()
+    if ret==True:
+    
+        out.write(frame)
+        cv2.imshow('frame',frame)
+        cv2.imwrite("frame_as_6.jpg",frame)
+    
+        break
+
+img=cv2.imread('singh.jpg')
+hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+low_range=np.array([0,100,0])
+up_range=np.array([5,255,255])
+mask=cv2.inRange(hsv,low_range,up_range)
+res=cv2.bitwise_and(img,img,mask=mask)
+cv2.imshow('image',img)
+cv2.imshow('mask',mask)
+cv2.imshow('frame_as_red.jpg',res)
+while(True):
+    
+    k=cv2.waitKey(5) & 0xFF
+    
+    if k==27:
+        break
+        
+    cv2.waitKey(0)     
+    cv2.destroyAllWindows()
+
